@@ -1,4 +1,4 @@
-local map     = vim.keymap.set
+local map = vim.keymap.set
 local autocmd = vim.api.nvim_create_autocmd
 
 vim.g.mapleader = ","
@@ -7,17 +7,17 @@ vim.g.mapleader = ","
 map("n", "<leader>so", vim.cmd.so)
 
 -- Copying and pasting to and from clipboard
-map({"n", "v"}, "y", '"+y')
-map({"n", "v"}, "d", '"+d')
-map({"n", "v"}, "p", '"+p')
+map({ "n", "v" }, "y", '"+y')
+map({ "n", "v" }, "d", '"+d')
+map({ "n", "v" }, "p", '"+p')
 
 -- Moving through visual lines only
 map("n", "j", "gj")
 map("n", "k", "gk")
 
 -- Moving text around
-map("n", "<A-Down>", ":m +1<CR>" )
-map("n", "<A-Up>", ":m -2<CR>" )
+map("n", "<A-Down>", ":m +1<CR>")
+map("n", "<A-Up>", ":m -2<CR>")
 map("n", "<A-Left>", "dlhhp")
 map("n", "<A-Right>", "dlp")
 map("v", "<A-Down>", "djhpgvjojo")
@@ -49,36 +49,35 @@ map("n", "t7", "7gt")
 map("n", "t8", "8gt")
 map("n", "t9", "9gt")
 
+-- Small plugins
+
+map("n", "<C-s>", ":ToggleAlternate<CR>")
+
 -- Filetype specific mappings
-autocmd("FileType",
-{
-    pattern = "python",
-    callback = function()
-        vim.schedule(function()
-            map("n", "<F1>", ":TermExec cmd='python %'<CR>")
-        end)
-    end,
+autocmd("FileType", {
+	pattern = "python",
+	callback = function()
+		vim.schedule(function()
+			map("n", "<F1>", ":TermExec cmd='python %'<CR>")
+		end)
+	end,
 })
 
-autocmd("FileType",
-{
-    pattern = {"latex", "plaintex"},
-    callback = function()
-        vim.schedule(function()
-            local filename = vim.fn.expand('%')
-            local basename = string.sub(filename, 1, -4)
-            map("n", "<F1>", string.format(":TermExec cmd='pdflatex {}; biber {}'<CR>"), {filename, basename})
-            -- map("n", "<F2>", )
-        end)
-    end,
+autocmd("FileType", {
+	pattern = { "latex", "plaintex" },
+	callback = function()
+		vim.schedule(function()
+			local filename = vim.fn.expand("%")
+			local basename = string.sub(filename, 1, -4)
+			map("n", "<F1>", string.format(":TermExec cmd='pdflatex {}; biber {}'<CR>"), { filename, basename })
+			-- map("n", "<F2>", )
+		end)
+	end,
 })
 
-autocmd("FileType",
-{
-    pattern  = { "c", "cpp" },
-    callback = function()
-        vim.schedule(function()
-            
-        end)
-    end
+autocmd("FileType", {
+	pattern = { "c", "cpp" },
+	callback = function()
+		vim.schedule(function() end)
+	end,
 })

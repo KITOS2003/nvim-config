@@ -19,4 +19,19 @@ set("noshowmode")
 -- end})
 
 -- Simple plugins
-require('leap').add_default_mappings()
+require("leap").add_default_mappings()
+
+require("neodev").setup({
+	library = {
+		plugins = {
+			"nvim-dap-ui",
+			"mason",
+			"mason-lspconfig",
+			"mason-null-ls",
+			"null-ls",
+			"nvim-treesitter",
+			"luasnips",
+		},
+		types = true,
+	},
+})

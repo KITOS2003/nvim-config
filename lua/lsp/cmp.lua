@@ -51,3 +51,5 @@ cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
 		{ name = "dap" },
 	},
 })
+
+require"lsp_signature".setup {}

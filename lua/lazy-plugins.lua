@@ -22,7 +22,7 @@ local dashboard_config = {
 
 local plugins = {
 	-- Colorschemes
-    "gruvbox-community/gruvbox",
+	"gruvbox-community/gruvbox",
 	"Shatur/neovim-ayu",
 	"catppuccin/nvim",
 
@@ -38,6 +38,8 @@ local plugins = {
 	"ggandor/leap.nvim",
 	"nvim-tree/nvim-web-devicons",
 	"lmburns/lf.nvim",
+	"lukas-reineke/indent-blankline.nvim",
+	"rmagatti/alternate-toggler",
 	{
 		"glepnir/dashboard-nvim",
 		event = "VimEnter",
@@ -52,6 +54,8 @@ local plugins = {
 	"nvim-treesitter/nvim-treesitter-textobjects",
 	"p00f/nvim-ts-rainbow",
 	"windwp/nvim-autopairs",
+	"nvim-treesitter/playground",
+	"ThePrimeagen/refactoring.nvim",
 
 	-- LSP
 	"williamboman/mason.nvim",
@@ -60,6 +64,7 @@ local plugins = {
 	"folke/neodev.nvim",
 	"jose-elias-alvarez/null-ls.nvim",
 	"jay-babu/mason-null-ls.nvim",
+	"ray-x/lsp_signature.nvim",
 
 	-- Autocompletado
 	"hrsh7th/cmp-nvim-lsp",
@@ -81,6 +86,9 @@ local plugins = {
 	"jay-babu/mason-nvim-dap.nvim",
 	"theHamsta/nvim-dap-virtual-text",
 	"rcarriga/cmp-dap",
+
+	-- Org mode
+	"nvim-neorg/neorg",
 }
 
 local opts = {}

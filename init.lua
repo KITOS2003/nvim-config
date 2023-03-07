@@ -4,6 +4,8 @@ require("gral-keymaps")
 require("colorschemes")
 require("toggleterm-config")
 require("telescope-config")
+require("treesitter-config")
+require("refactor-config")
 require("lf-config")
 require("snippets")
 

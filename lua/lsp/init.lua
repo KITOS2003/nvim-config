@@ -1,4 +1,4 @@
-require("neodev").setup({ library = { plugins = { "nvim-dap-ui" }, types = true } })
+local lspconfig = require("lspconfig")
 
 require("mason").setup()
 require("mason-lspconfig").setup({
@@ -8,16 +8,24 @@ require("mason-lspconfig").setup({
 
 require("mason-lspconfig").setup_handlers({
 	function(server_name)
-		require("lspconfig")[server_name].setup({})
+		lspconfig[server_name].setup({})
 	end,
 	["pylsp"] = function()
-		require("lspconfig").pylsp.setup({
-			pylsp = {
+		lspconfig.pylsp.setup({
+			settings = {
 				pylsp = {
 					plugins = {
 						pycodestyle = { enabled = false },
-						flake8 = { enabled = false },
 					},
+				},
+			},
+		})
+	end,
+	["ltex"] = function()
+		lspconfig.ltex.setup({
+			settings = {
+				ltex = {
+					language = "es",
 				},
 			},
 		})
