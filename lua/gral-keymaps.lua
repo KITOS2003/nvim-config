@@ -1,6 +1,8 @@
 local map = vim.keymap.set
 local autocmd = vim.api.nvim_create_autocmd
 
+local opts = { noremap = true, silent = true }
+
 vim.g.mapleader = ","
 
 -- Source file
@@ -36,18 +38,66 @@ map("x", "<leader>r", ":s///g<left><left>")
 map("n", "n", "nzz")
 
 -- Tabs
-map("n", "tt", ":tab new<CR>")
-map("n", "<c-l>", "gt", { noremap = true })
-map("n", "<c-h>", "gT", { noremap = true })
-map("n", "t1", "1gt")
-map("n", "t2", "2gt")
-map("n", "t3", "3gt")
-map("n", "t4", "4gt")
-map("n", "t5", "5gt")
-map("n", "t6", "6gt")
-map("n", "t7", "7gt")
-map("n", "t8", "8gt")
-map("n", "t9", "9gt")
+map("n", "tt", ":badd ")
+map("n", "th", "<Cmd>BufferPrevious<CR>", opts)
+map("n", "tl", "<Cmd>BufferNext<CR>", opts)
+map("n", "tk", "<Cmd>BufferMovePrevious<CR>", opts)
+map("n", "tj", "<Cmd>BufferMoveNext<CR>", opts)
+map("n", "t1", "<Cmd>BufferGoto 1<CR>", opts)
+map("n", "t2", "<Cmd>BufferGoto 2<CR>", opts)
+map("n", "t3", "<Cmd>BufferGoto 3<CR>", opts)
+map("n", "t4", "<Cmd>BufferGoto 4<CR>", opts)
+map("n", "t5", "<Cmd>BufferGoto 5<CR>", opts)
+map("n", "t6", "<Cmd>BufferGoto 6<CR>", opts)
+map("n", "t7", "<Cmd>BufferGoto 7<CR>", opts)
+map("n", "t8", "<Cmd>BufferGoto 8<CR>", opts)
+map("n", "t9", "<Cmd>BufferGoto 9<CR>", opts)
+map("n", "t0", "<Cmd>BufferLast<CR>", opts)
+map("n", "tp", "<Cmd>BufferPin<CR>", opts)
+map("n", "tc", "<Cmd>BufferClose<CR>", opts)
+
+-- LSP
+
+local lspf = vim.lsp.buf
+
+map("n", "ñd", lspf.definition, opts)
+map("n", "ñD", lspf.declaration, opts)
+map("n", "ñi", lspf.implementation, opts)
+map("n", "ñ?", lspf.hover, opts)
+map("n", "ñw", lspf.workspace_symbol, opts)
+map("n", "ñr", lspf.references, opts)
+map("n", "ñt", lspf.type_definition, opts)
+map("n", "ñR", lspf.rename, opts)
+
+-- Snippets
+
+map({ "i", "s" }, "<c-j>", function()
+    if require("luasnip").expand_or_jumpable() then
+        require("luasnip").expand_or_jump()
+    end
+end, { silent = true })
+
+map({ "i", "s" }, "<c-k>", function()
+    if require("luasnip").jumpable(-1) then
+        require("luasnip").jump(-1)
+    end
+end, { silent = true })
+
+map({ "i", "s" }, "<c-l>", function()
+    if require("luasnip").choice_active() then
+        require("luasnip").change_choice(1)
+    else
+        print("no choice active")
+    end
+end, { silent = true })
+
+map({ "i", "s" }, "<c-h>", function()
+    if require("luasnip").choice_active() then
+        require("luasnip").change_choice(-1)
+    else
+        print("no choice active")
+    end
+end, { silent = true })
 
 -- Small plugins
 
@@ -55,29 +105,34 @@ map("n", "<C-s>", ":ToggleAlternate<CR>")
 
 -- Filetype specific mappings
 autocmd("FileType", {
-	pattern = "python",
-	callback = function()
-		vim.schedule(function()
-			map("n", "<F1>", ":TermExec cmd='python %'<CR>")
-		end)
-	end,
+    pattern = "python",
+    callback = function()
+        vim.schedule(function()
+            map("n", "<F1>", ":TermExec cmd='python %'<CR>")
+        end)
+    end,
 })
 
 autocmd("FileType", {
-	pattern = { "latex", "plaintex" },
-	callback = function()
-		vim.schedule(function()
-			local filename = vim.fn.expand("%")
-			local basename = string.sub(filename, 1, -4)
-			map("n", "<F1>", string.format(":TermExec cmd='pdflatex {}; biber {}'<CR>"), { filename, basename })
-			-- map("n", "<F2>", )
-		end)
-	end,
+    pattern = { "tex", "plaintex" },
+    callback = function()
+        vim.schedule(function()
+            local filename = vim.fn.expand("%")
+            local basename = string.sub(filename, 1, -5)
+            map("n", "<F1>", string.format(":TermExec cmd='pdflatex %s; biber %s'<CR>", filename, basename))
+            map(
+                "n",
+                "<F10>",
+                string.format(":TermExec cmd='nohup zathura %s > /dev/null & disown ; exit'<CR>", filename)
+            )
+        end)
+    end,
 })
 
 autocmd("FileType", {
-	pattern = { "c", "cpp" },
-	callback = function()
-		vim.schedule(function() end)
-	end,
+    pattern = { "c", "cpp" },
+    callback = function()
+        vim.schedule(function()
+        end)
+    end,
 })

@@ -1,3 +1,3 @@
-colorschemes = { "gruvbox", "catppuccin-mocha", "ayu-mirage", "ayu-dark" }
+local colorschemes = { "gruvbox", "catppuccin-mocha", "ayu-mirage", "ayu-dark", "codedark" }
 
-vim.cmd.colorscheme(colorschemes[2])
+vim.cmd.colorscheme(colorschemes[5])

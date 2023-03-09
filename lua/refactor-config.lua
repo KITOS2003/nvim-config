@@ -1,5 +1,3 @@
-require("refactoring").setup({})
-
 vim.api.nvim_set_keymap(
 	"v",
 	";f",
@@ -44,3 +42,10 @@ vim.api.nvim_set_keymap(
 	[[ <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
 	{ noremap = true, silent = true, expr = false }
 )
+
+return {
+	"ThePrimeagen/refactoring.nvim",
+	config = function()
+		require("refactoring").setup({})
+	end,
+}
