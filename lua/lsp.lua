@@ -4,6 +4,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	end,
 })
 
+vim.diagnostic.config({ underline = false })
+
 return {
 	{
 		"williamboman/mason.nvim",
@@ -27,6 +29,7 @@ return {
 						"nvim-treesitter",
 						"luasnips",
 						"nvim-cmp",
+						"vim-arduino",
 					},
 					types = true,
 				},

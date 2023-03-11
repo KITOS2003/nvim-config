@@ -22,12 +22,12 @@ map("n", "<A-Down>", ":m +1<CR>")
 map("n", "<A-Up>", ":m -2<CR>")
 map("n", "<A-Left>", "dlhhp")
 map("n", "<A-Right>", "dlp")
-map("v", "<A-Down>", "djhpgvjojo")
 map("v", "<A-Up>", "dkhpgvkoko")
+map("v", "<A-Down>", "djhpgvjojo")
 map("v", "<A-Left>", "dhhpgvhoho")
 map("v", "<A-Right>", "dpgvlolo")
-map("x", "J", ":move '>+1<CR>gv-gv", { silent = true })
-map("x", "K", ":move '<-2<CR>gv-gv", { silent = true })
+map("x", "J", ":move '>+1<CR>gv-gv")
+map("x", "K", ":move '<-2<CR>gv-gv")
 map("v", ">", ">gv")
 map("v", "<", "<gv")
 
@@ -39,35 +39,47 @@ map("n", "n", "nzz")
 
 -- Tabs
 map("n", "tt", ":badd ")
-map("n", "th", "<Cmd>BufferPrevious<CR>", opts)
-map("n", "tl", "<Cmd>BufferNext<CR>", opts)
-map("n", "tk", "<Cmd>BufferMovePrevious<CR>", opts)
-map("n", "tj", "<Cmd>BufferMoveNext<CR>", opts)
-map("n", "t1", "<Cmd>BufferGoto 1<CR>", opts)
-map("n", "t2", "<Cmd>BufferGoto 2<CR>", opts)
-map("n", "t3", "<Cmd>BufferGoto 3<CR>", opts)
-map("n", "t4", "<Cmd>BufferGoto 4<CR>", opts)
-map("n", "t5", "<Cmd>BufferGoto 5<CR>", opts)
-map("n", "t6", "<Cmd>BufferGoto 6<CR>", opts)
-map("n", "t7", "<Cmd>BufferGoto 7<CR>", opts)
-map("n", "t8", "<Cmd>BufferGoto 8<CR>", opts)
-map("n", "t9", "<Cmd>BufferGoto 9<CR>", opts)
-map("n", "t0", "<Cmd>BufferLast<CR>", opts)
-map("n", "tp", "<Cmd>BufferPin<CR>", opts)
-map("n", "tc", "<Cmd>BufferClose<CR>", opts)
+map("n", "th", "<Cmd>BufferPrevious<CR>")
+map("n", "tl", "<Cmd>BufferNext<CR>")
+map("n", "tk", "<Cmd>BufferMovePrevious<CR>")
+map("n", "tj", "<Cmd>BufferMoveNext<CR>")
+map("n", "tp", "<Cmd>BufferPin<CR>")
+map("n", "tq", "<Cmd>BufferClose<CR>")
+map("n", "tQ", "<Cmd>BufferClose<CR>")
+map("n", "<A-1>", "<Cmd>BufferGoto 1<CR>")
+map("n", "<A-2>", "<Cmd>BufferGoto 2<CR>")
+map("n", "<A-3>", "<Cmd>BufferGoto 3<CR>")
+map("n", "<A-4>", "<Cmd>BufferGoto 4<CR>")
+map("n", "<A-5>", "<Cmd>BufferGoto 5<CR>")
+map("n", "<A-6>", "<Cmd>BufferGoto 6<CR>")
+map("n", "<A-7>", "<Cmd>BufferGoto 7<CR>")
+map("n", "<A-8>", "<Cmd>BufferGoto 8<CR>")
+map("n", "<A-9>", "<Cmd>BufferGoto 9<CR>")
+map("n", "<A-0>", "<Cmd>BufferLast<CR>")
+
+-- Splits
+map("n", "<A-j>", "<C-w>j")
+map("n", "<A-k>", "<C-w>k")
+map("n", "<A-l>", "<C-w>l")
+map("n", "<A-h>", "<C-w>h")
+
+map("n", "<A-J>", ":split<CR><C-w>j")
+map("n", "<A-K>", ":split<CR>")
+map("n", "<A-L>", ":vsplit<CR>")
+map("n", "<A-H>", ":vsplit<CR><C-w>h")
 
 -- LSP
 
 local lspf = vim.lsp.buf
 
-map("n", "ñd", lspf.definition, opts)
-map("n", "ñD", lspf.declaration, opts)
-map("n", "ñi", lspf.implementation, opts)
-map("n", "ñ?", lspf.hover, opts)
-map("n", "ñw", lspf.workspace_symbol, opts)
-map("n", "ñr", lspf.references, opts)
-map("n", "ñt", lspf.type_definition, opts)
-map("n", "ñR", lspf.rename, opts)
+map("n", "ñd", lspf.definition)
+map("n", "ñD", lspf.declaration)
+map("n", "ñi", lspf.implementation)
+map("n", "ñ?", lspf.hover)
+map("n", "ñw", lspf.workspace_symbol)
+map("n", "ñr", lspf.references)
+map("n", "ñt", lspf.type_definition)
+map("n", "ñR", lspf.rename)
 
 -- Snippets
 
@@ -99,9 +111,18 @@ map({ "i", "s" }, "<c-h>", function()
     end
 end, { silent = true })
 
--- Small plugins
+-- Toggle true/false 1/0
 
 map("n", "<C-s>", ":ToggleAlternate<CR>")
+
+-- Undo tree
+
+map("n", "U", ":lua require('undotree').toggle()<CR>")
+
+-- Telescope
+map("n", "<leader>k", ":Telescope keymaps<CR>")
+map("n", "<leader>y", require("telescope").extensions.neoclip.default)
+map("n", "<leader>q", require("telescope").extensions.macroscope.default)
 
 -- Filetype specific mappings
 autocmd("FileType", {

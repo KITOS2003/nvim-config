@@ -1,23 +1,23 @@
-local dap   = require'dap'
-local dapui = require'dapui'
+local dap = require("dap")
+local dapui = require("dapui")
 
 local map = vim.keymap.set
 
-dapui.setup {}
+dapui.setup({})
 
 -- dap.listeners.after.event_initialized['dapui_config'] = function()
 --     dapui.open()
 -- end
 
-dap.listeners.before.event_terminated['dapui_config'] = function()
-    dapui.close()
+dap.listeners.before.event_terminated["dapui_config"] = function()
+	dapui.close()
 end
 
-dap.listeners.before.event_exited['dapui_config'] = function()
-    dapui.close()
+dap.listeners.before.event_exited["dapui_config"] = function()
+	dapui.close()
 end
 
 -- Keymaps
-map("n", ";u", function()
-    dapui.toggle()
+map("n", "mu", function()
+	dapui.toggle()
 end)

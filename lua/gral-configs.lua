@@ -1,19 +1,13 @@
-local set = vim.cmd.set
-local autocmd = vim.api.nvim_create_autocmd
-
-set("number relativenumber")
-set("autoindent")
-set("virtualedit=all")
-set("belloff=all")
-set("expandtab")
-set("tabstop=4")
-set("softtabstop=4")
-set("shiftwidth=4")
-set("splitright")
-set("noshowmode")
-
--- Open files in new tabs
-
--- autocmd("BufAdd", {callback = function()
---     vim.cmd("wincmd T")
--- end})
+vim.cmd("set number relativenumber")
+vim.cmd("set autoindent")
+vim.cmd("set virtualedit=all")
+vim.cmd("set belloff=all")
+vim.cmd("set expandtab")
+vim.cmd("set tabstop=4")
+vim.cmd("set softtabstop=4")
+vim.cmd("set shiftwidth=4")
+vim.cmd("set splitright")
+vim.cmd("set noshowmode")
+vim.cmd("set undofile")
+vim.cmd("silent !mkdir /tmp/neovim-undo-dir")
+vim.cmd("set undodir=/tmp/neovim-undo-dir")
