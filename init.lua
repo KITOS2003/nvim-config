@@ -3,15 +3,9 @@ vim.g.loaded_netrwPlugin = 1
 
 -- TODO
 -- "gbprod/substitute.nvim",
--- "nvim-neorg/neorg",
 -- "saecki/crates.nvim",
 -- "simrat39/rust-tools.nvim",
 -- "Civitasv/cmake-tools.nvim",
--- "LudoPinelli/comment-box.nvim",
--- "danymat/neogen",
--- "lewis6991/gitsigns.nvim",
--- "gelguy/wilder.nvim",
--- "monaqa/dial.nvim",
 -- "RRethy/vim-illuminate",
 
 -- LAZY:
@@ -44,7 +38,8 @@ local plugins = {
     "gruvbox-community/gruvbox",
     "Shatur/neovim-ayu",
     "catppuccin/nvim",
-    "tomasiser/vim-code-dark",
+    "Mofiqul/vscode.nvim",
+    "rebelot/kanagawa.nvim",
 
     -- Misc
     "tpope/vim-surround",
@@ -56,10 +51,12 @@ local plugins = {
     { "nvim-telescope/telescope.nvim", tag = "0.1.1" },
     "nvim-tree/nvim-web-devicons",
     "lukas-reineke/indent-blankline.nvim",
-    "rmagatti/alternate-toggler", -- TODO replace with dial.nvim
+    "monaqa/dial.nvim",
     "romgrk/barbar.nvim",
     "nvim-tree/nvim-tree.lua",
     "rhysd/clever-f.vim",
+    "norcalli/nvim-colorizer.lua",
+    "LudoPinelli/comment-box.nvim",
     -- "eandrju/cellular-automaton.nvim", -- Lol
     {
         "jiaoshijie/undotree",
@@ -70,11 +67,19 @@ local plugins = {
             })
         end,
     },
+    {
+        "danymat/neogen",
+        dependencies = "nvim-treesitter/nvim-treesitter",
+        config = function()
+            require("neogen").setup({ snippet_engine = "luasnip" })
+        end,
+    },
     require("neoclip-config"),
 
     -- treesitter
     require("treesitter-config"),
     require("refactor-config"),
+    "nvim-treesitter/playground",
 
     -- LSP
     require("lsp"),
@@ -98,6 +103,10 @@ local plugins = {
     -- 		vim.g.arduino_dir = "~/.arduino15"
     -- 	end,
     -- },
+    "ThePrimeagen/vim-be-good",
+
+    -- GIT
+    require("git"),
 }
 
 local opts = {}
@@ -114,3 +123,5 @@ require("barbar-config")
 require("tree-config")
 
 require("debuger")
+
+-- require("latex-plugin")

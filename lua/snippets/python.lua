@@ -38,6 +38,15 @@ local lib_aliases = {
 	["pyvisa"] = "pv",
 }
 
+local commonly_used_funcs = {
+	-- TODO this
+	["seaborn"] = { "set_theme" },
+	["scipy.optimize"] = { "curve_fit" },
+	["scipy.signal"] = { "find_peaks" },
+	["scipy.fft"] = { "fft, fftfreq" },
+	["scipy.integrate"] = { "quad", "odeint" },
+}
+
 local generate_alias = function(index, input_index)
 	return d(index, function(args)
 		local alias = lib_aliases[args[1][1]]
@@ -47,6 +56,15 @@ local generate_alias = function(index, input_index)
 		end
 		return sn(nil, { i(1, alias) })
 	end, { input_index })
+end
+
+local get_common_funcs = function(args)
+	local common_funcs = commonly_used_funcs[args[1][1]]
+	if common_funcs ~= nil then
+		return sn(nil, c(1, { i(nil, "hello"), i(nil, "world") }))
+	else
+		return sn(nil, i(1, "thing"))
+	end
 end
 
 ------------- STUFF FOR THE "def" SNIPPET -------------
@@ -69,10 +87,66 @@ local is_inside_class = function()
 	end
 end
 
+local add_comma = function(args)
+	local user_input = args[1][1]
+	if args[2][1] ~= "self" then
+		return ""
+	end
+	if user_input == "" or user_input[1] == "," then
+		return ""
+	else
+		return ", "
+	end
+end
+------------- STUFF FOR THE "class" SNIPPET ------------
+
+local add_comma_class = function(args)
+	local user_input = args[1][1]
+	if user_input == "" or user_input[1] == "," then
+		return ""
+	else
+		return ", "
+	end
+end
+
+local possible_classes_choice = function(args) -- TODO LSP integration
+	return sn(nil, i(1, ""))
+end
+
+------------- STUFF FOR THE "for" SNIPPET -------------
+
+local iteration_variable_fn = function() --TODO treesitter integration
+	return sn(nil, { i(1, "x") })
+end
+
+local index_fn = function() --TODO treesitter integration
+	return sn(nil, { i(1, "i") })
+end
+
+---------------------- SNIPPETS -----------------------
+
 return {
 	add_snippets = function()
 		ls.add_snippets("python", {
-			-- Imort snippet
+			s("pr", { --TODO regular expression trigger
+				t("print("),
+				c(1, {
+					sn(nil, {
+						t('f"'),
+						i(1, ""),
+						t('"'),
+					}),
+					sn(nil, {
+						t('f"{'),
+						i(1, ""),
+						t(' = }"'),
+					}),
+					i(nil, ""),
+				}),
+				t({ ")", "" }),
+				i(0, ""),
+			}),
+			-- import snippet
 			s("imp", {
 				c(1, {
 					-- import x as y
@@ -112,7 +186,7 @@ return {
 			}, {
 				stored = {
 					["library"] = i(nil, "module"),
-					["thing"] = i(nil, "thing"),
+					["thing"] = d(nil, get_common_funcs, { ai[1][1][1] }),
 				},
 			}),
 			-- Function definition snippet
@@ -127,26 +201,114 @@ return {
 						end
 					end),
 				}),
-				f(function(args)
-					local user_input = args[1][1]
-					if args[2][1] ~= "self" then
-						return ""
-					end
-					if user_input == "" or user_input[1] == "," then
-						return ""
-					else
-						return ", "
-					end
-				end, { 3, 2 }),
+				f(add_comma, { 3, 2 }),
 				i(3, ""),
 				t(")"),
 				c(4, {
-					t(":"),
+					sn(nil, {
+						t({ ":", "    " }),
+						r(1, "body"),
+					}),
 					sn(nil, {
 						t(" -> "),
 						i(1, "Type"),
+						t({ ":", "    " }),
+						r(2, "body"),
 					}),
 				}),
+			}, {
+				stored = {
+					["body"] = i(nil, ""),
+				},
+			}),
+			-- class definition snippet
+			s("class", {
+				t("class "),
+				c(1, {
+					r(nil, "Name"),
+					sn(nil, {
+						r(1, "Name"),
+						t("("),
+						d(2, possible_classes_choice),
+						t(")"),
+					}),
+				}),
+				t({ ":", "    " }),
+				t("def __init__(self"),
+				f(add_comma_class, { 3 }),
+				i(2, ""),
+				t({ "):", "        " }),
+			}, {
+				stored = {
+					["name"] = i(nil, "Name"),
+				},
+			}),
+			s("try", {
+				t({ "try:", "   " }),
+				i(1, ""),
+				t({ "", "except:", "   " }),
+				i(2, ""),
+				c(3, {
+					sn(nil, {
+						t({ "", "" }),
+						i(1, ""),
+					}),
+					sn(nil, {
+						t({ "", "else:", "   " }),
+						i(1, ""),
+						c(2, {
+							sn(nil, {
+								t({ "", "" }),
+								i(1, ""),
+							}),
+							sn(nil, {
+								t({ "", "finally:", "   " }),
+								i(1, ""),
+								t("", ""),
+								i(0, ""),
+							}),
+						}),
+					}),
+					sn(nil, {
+						t({ "", "finally:", "   " }),
+						i(1, ""),
+						t("", ""),
+						i(0, ""),
+					}),
+				}),
+			}),
+			-- for loop snippet
+			s("for", {
+				t("for "),
+				c(1, {
+					sn(nil, {
+						r(1, "iteration_variable"),
+						t(" in "),
+						r(2, "iterable"),
+					}),
+					sn(nil, {
+						r(1, "index"),
+						t(", "),
+						r(2, "iteration_variable"),
+						t(" in enumerate("),
+						r(3, "iterable"),
+						t(")"),
+					}),
+					sn(nil, {
+						r(1, "index"),
+						t(" in range("),
+						i(2, "n"),
+						t(")"),
+					}),
+				}),
+				t({ ":", "    " }),
+				i(0, ""),
+			}, {
+				stored = {
+					["iteration_variable"] = d(nil, iteration_variable_fn),
+					["index"] = d(nil, index_fn),
+					["iterable"] = i(nil, "iterable"),
+				},
 			}),
 		})
 	end,
