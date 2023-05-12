@@ -1,9 +1,3 @@
-vim.api.nvim_create_autocmd("BufWritePre", {
-	callback = function()
-		vim.lsp.buf.format()
-	end,
-})
-
 vim.diagnostic.config({ underline = false })
 
 return {
@@ -53,6 +47,7 @@ return {
 							pylsp = {
 								plugins = {
 									pycodestyle = { enabled = false },
+									rope_autoimport = { enabled = false },
 								},
 							},
 						},
@@ -98,9 +93,12 @@ return {
 		"jose-elias-alvarez/null-ls.nvim",
 		dependencies = { "jay-babu/mason-null-ls.nvim" },
 		config = function()
-			require("mason-null-ls").setup({ automatic_setup = true })
+			require("mason-null-ls").setup({
+				automatic_setup = true,
+				handlers = {},
+			})
 			require("null-ls").setup({})
-			require("mason-null-ls").setup_handlers()
+			-- require("mason-null-ls").setup_handlers()
 		end,
 	},
 	{
@@ -121,6 +119,13 @@ return {
 				end,
 				file_permission_mode = 438,
 			})
+		end,
+	},
+	-- Improved rename function
+	{
+		"smjonas/inc-rename.nvim",
+		config = function()
+			require("inc_rename").setup()
 		end,
 	},
 }

@@ -1,0 +1,11 @@
+{
+    "workspace.library": [
+        "/home/marcsid/.local/share/nvim/lazy/neodev.nvim/types/stable",
+        "/usr/share/nvim/runtime/lua",
+        "/home/marcsid/.local/share/nvim/lazy/nvim-treesitter/lua",
+        "/home/marcsid/.local/share/nvim/lazy/nvim-cmp/lua",
+        "/home/marcsid/.local/share/nvim/lazy/nvim-dap-ui/lua",
+        "/home/marcsid/.config/nvim/lua",
+        "${3rd}/luv/library"
+    ]
+}
